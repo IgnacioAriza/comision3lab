@@ -3,7 +3,7 @@ import java.util.Scanner;
 
 public class tp_4_java {
     public static void main(String[] args) {
-        //Ehjercicio 1
+        //Ejercicio 1
         Scanner leer = new Scanner(System.in);
 
         int numbers[] = new int[10];
