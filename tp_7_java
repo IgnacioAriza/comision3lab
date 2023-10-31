@@ -1,0 +1,229 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+class Book {
+    String title;
+    String author;
+    int year;
+
+    public Book(String title, String author, int year) {
+        this.title = title;
+        this.author = author;
+        this.year = year;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        // Tarea 1: Ordenamiento de Burbuja para una lista de números
+        int[] numbers = {64, 34, 25, 12, 22, 11, 90};
+        bubbleSort(numbers);
+        System.out.println("Tarea 1: Lista de números ordenada en orden ascendente: " + Arrays.toString(numbers));
+
+        // Tarea 2: Ordenamiento de Selección para una lista de palabras
+        String[] words = {"apple", "banana", "cherry", "date", "fig"};
+        selectionSort(words);
+        System.out.println("Tarea 2: Lista de palabras ordenada alfabéticamente en orden ascendente: " + Arrays.toString(words));
+
+        // Tarea 3: Ordenamiento de una lista de libros por año de publicación
+        List<Book> books = new ArrayList<>();
+        books.add(new Book("Book1", "Author1", 2000));
+        books.add(new Book("Book2", "Author2", 1995));
+        books.add(new Book("Book3", "Author3", 2010));
+        sortByYear(books);
+        System.out.println("Tarea 3: Lista de libros ordenada por año de publicación:");
+        for (Book book : books) {
+            System.out.println(book.title + " by " + book.author + " (" + book.year + ")");
+
+        }
+
+        // Tarea 4: Ordenamiento de cadenas por longitud usando Inserción
+        String[] strings = {"apple", "banana", "cherry", "date", "fig"};
+        insertionSortByLength(strings);
+        System.out.println("Tarea 4: Lista de cadenas ordenada por longitud: " + Arrays.toString(strings));
+
+        // Tarea 5: Modificar el resultado de la Tarea 1 para ordenar números en orden descendente
+        reverseBubbleSort(numbers);
+        System.out.println("Tarea 5: Lista de números ordenada en orden descendente: " + Arrays.toString(numbers));
+
+        // Tarea 6: Ordenamiento por Conteo para una lista de números enteros
+        int[] countSortNumbers = {4, 2, 2, 8, 3, 3, 1};
+        countSort(countSortNumbers);
+        System.out.println("Tarea 6: Lista de números ordenada con ordenamiento por conteo: " + Arrays.toString(countSortNumbers));
+
+        // Tarea 7: Ordenar una lista de números y cadenas
+        List<Comparable> mixedList = new ArrayList<>();
+        mixedList.add(5);
+        mixedList.add("apple");
+        mixedList.add(2);
+        mixedList.add("banana");
+        mixedList.add("cherry");
+        mixedList.add(1);
+        mixedList.add("date");
+        mixedList.add(4);
+        mixedList.add("fig");
+        sortMixedList(mixedList);
+        System.out.println("Tarea 7: Lista ordenada con números primero y luego cadenas: " + mixedList);
+
+        // Tarea 8: Implementar Merge Sort para ordenar una lista de números
+        int[] mergeSortNumbers = {64, 34, 25, 12, 22, 11, 90};
+        mergeSort(mergeSortNumbers, 0, mergeSortNumbers.length - 1);
+        System.out.println("Tarea 8: Lista de números ordenada usando Merge Sort: " + Arrays.toString(mergeSortNumbers));
+    }
+
+    // Tarea 1: Ordenamiento de Burbuja
+    public static void bubbleSort(int[] arr) {
+        int n = arr.length;
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = 0; j < n - i - 1; j++) {
+                if (arr[j] > arr[j + 1]) {
+                    int temp = arr[j];
+                    arr[j] = arr[j + 1];
+                    arr[j + 1] = temp;
+                }
+            }
+        }
+    }
+
+    // Tarea 2: Ordenamiento de Selección
+    public static void selectionSort(String[] arr) {
+        int n = arr.length;
+        for (int i = 0; i < n - 1; i++) {
+            int minIndex = i;
+            for (int j = i + 1; j < n; j++) {
+                if (arr[j].compareTo(arr[minIndex]) < 0) {
+                    minIndex = j;
+                }
+            }
+            String temp = arr[i];
+            arr[i] = arr[minIndex];
+            arr[minIndex] = temp;
+        }
+    }
+
+    // Tarea 3: Ordenar lista de libros por año de publicación
+    public static void sortByYear(List<Book> books) {
+        Collections.sort(books, (a, b) -> Integer.compare(a.year, b.year));
+    }
+
+    // Tarea 4: Ordenamiento de Inserción por longitud
+    public static void insertionSortByLength(String[] arr) {
+        int n = arr.length;
+        for (int i = 1; i < n; i++) {
+            String key = arr[i];
+            int j = i - 1;
+            while (j >= 0 && arr[j].length() > key.length()) {
+                arr[j + 1] = arr[j];
+                j = j - 1;
+            }
+            arr[j + 1] = key;
+        }
+    }
+
+    // Tarea 5: Modificar Burbuja para ordenar en orden descendente
+    public static void reverseBubbleSort(int[] arr) {
+        int n = arr.length;
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = 0; j < n - i - 1; j++) {
+                if (arr[j] < arr[j + 1]) {
+                    int temp = arr[j];
+                    arr[j] = arr[j + 1];
+                    arr[j + 1] = temp;
+                }
+            }
+        }
+    }
+
+    // Tarea 6: Ordenamiento por Conteo
+    public static void countSort(int[] arr) {
+        int max = Arrays.stream(arr).max().getAsInt();
+        int min = Arrays.stream(arr).min().getAsInt();
+        int range = max - min + 1;
+
+        int[] count = new int[range];
+        int[] output = new int[arr.length];
+
+        for (int value : arr) {
+            count[value - min]++;
+        }
+
+        for (int i = 1; i < range; i++) {
+            count[i] += count[i - 1];
+        }
+
+        for (int i = arr.length - 1; i >= 0; i--) {
+            output[count[arr[i] - min] - 1] = arr[i];
+            count[arr[i] - min]--;
+        }
+
+        for (int i = 0; i < arr.length; i++) {
+            arr[i] = output[i];
+        }
+    }
+
+    // Tarea 7: Ordenar números primero y luego cadenas
+    public static void sortMixedList(List<Comparable> list) {
+        Collections.sort(list, (a, b) -> {
+            if (a instanceof Integer && b instanceof Integer) {
+                return ((Integer) a).compareTo((Integer) b);
+            } else if (a instanceof String && b instanceof String) {
+                return ((String) a).compareTo((String) b);
+            } else if (a instanceof Integer) {
+                return -1;
+            } else {
+                return 1;
+            }
+        });
+    }
+
+    // Tarea 8: Implementación de Merge Sort
+    public static void mergeSort(int[] arr, int left, int right) {
+        if (left < right) {
+            int mid = (left + right) / 2;
+            mergeSort(arr, left, mid);
+            mergeSort(arr, mid + 1, right);
+            merge(arr, left, mid, right);
+        }
+    }
+
+    public static void merge(int[] arr, int left, int mid, int right) {
+        int n1 = mid - left + 1;
+        int n2 = right - mid;
+
+        int[] L = new int[n1];
+        int[] R = new int[n2];
+
+        for (int i = 0; i < n1; i++) {
+            L[i] = arr[left + i];
+        }
+        for (int i = 0; i < n2; i++) {
+            R[i] = arr[mid + 1 + i];
+        }
+
+        int i = 0, j = 0, k = left;
+        while (i < n1 && j < n2) {
+            if (L[i] <= R[j]) {
+                arr[k] = L[i];
+                i++;
+            } else {
+                arr[k] = R[j];
+                j++;
+            }
+            k++;
+        }
+
+        while (i < n1) {
+            arr[k] = L[i];
+            i++;
+            k++;
+        }
+
+        while (j < n2) {
+            arr[k] = R[j];
+            j++;
+            k++;
+        }
+    }
+}
